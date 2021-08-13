@@ -195,10 +195,10 @@ DEFAULT_FROM_EMAIL = 'abhishek.budruk.tutorial@gmail.com'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
-# AWS_ACCESS_KEY_ID = 'AKIA5R5UV6XBCQMTZPBW'
-# AWS_SECRET_ACCESS_KEY = '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'
-# AWS_STORAGE_BUCKET_NAME = 'mycartbucket'
-# AWS_S3_FILE_OVERWRITE = False
-# AWS_DEFAULT_ACL = None
-# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-# AWS_S3_REGION_NAME = "ap-south-1"
+AWS_ACCESS_KEY_ID = 'AKIA5R5UV6XBCQMTZPBW'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'mycartbucket'
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_S3_REGION_NAME = "ap-south-1"

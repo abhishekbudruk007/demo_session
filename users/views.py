@@ -16,7 +16,7 @@ from .models import CustomUsers
 
 # Create your views here.
 def SignUp(request):
-    form = RegistrationForm()
+    form = RegistrationForm
     if request.method == "POST":
         registration_form =  RegistrationForm(request.POST, request.FILES)
         if registration_form.is_valid():

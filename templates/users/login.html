@@ -32,7 +32,19 @@
                         <br>
                         <p><a href="{% url 'users:password_reset' %}">Forgot Password</a></p>
                         <p>Not a user ?</p> SignUp <a href="{% url 'users:signup' %}">here</a>
+
+
               </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h1>My Google OAuth Project </h1>
+                {% if user.is_authenticated %}
+                  <p>Welcome, You are logged in as {{ user.username }}</p>
+                {% else %}
+                  <a href="{% provider_login_url 'google' %}">Login With Google</a>
+                {% endif %}
             </div>
         </div>
     </div>

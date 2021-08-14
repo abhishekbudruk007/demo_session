@@ -173,7 +173,8 @@ LOGIN_REQUIRED_IGNORE_PATHS = [
     '/password-reset-confirm/',
     '/password-reset-complete/',
     '/admin/',
-    '/accounts/google/login/'
+    '/accounts/google/login/',
+    '/accounts/google/login/callback/'
 ]
 LOGIN_REQUIRED_IGNORE_VIEW_NAMES =[
     'dashboard:home',

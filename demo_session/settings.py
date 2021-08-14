@@ -97,10 +97,10 @@ DATABASES = {
     #     },
     'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'd3l98ssd4mhuga',
-            'USER': 'frpyaddnacxugi',
-            'PASSWORD': '7ec637982b1d71ee08fa145d1be76fa4b3a20ed39972d39e27da47e5d15b7076',
-            'HOST': 'ec2-44-196-68-164.compute-1.amazonaws.com',
+            'NAME': os.environ['DATABASE_NAME'],
+            'USER': os.environ['DATABASE_USER'],
+            'PASSWORD': os.environ['DATABASE_PASSWORD'],
+            'HOST': os.environ['DATABASE_HOST'],
             'PORT': '5432',
         },
 }
@@ -183,21 +183,20 @@ EMAIL_HOST = 'smtp.gmail.com'
 # Port for sending email.
 EMAIL_PORT = 587
 EMAIL_USE_LOCALTIME = False
-EMAIL_HOST_USER = 'abhishek.budruk.tutorial@gmail.com'
-EMAIL_HOST_PASSWORD = 'bgumzeayfxubvuta'
+EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
+EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 EMAIL_SSL_CERTFILE = None
 EMAIL_SSL_KEYFILE = None
 EMAIL_TIMEOUT = None
-DEFAULT_FROM_EMAIL = 'abhishek.budruk.tutorial@gmail.com'
+DEFAULT_FROM_EMAIL = os.environ['DEFAULT_FROM_EMAIL']
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-
-AWS_ACCESS_KEY_ID = 'AKIA5R5UV6XBCQMTZPBW'
-AWS_SECRET_ACCESS_KEY = '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'
-AWS_STORAGE_BUCKET_NAME = 'mycartbucket'
+AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
+AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
+AWS_STORAGE_BUCKET_NAME = os.environ['AWS_STORAGE_BUCKET_NAME']
 AWS_S3_FILE_OVERWRITE = False
 AWS_DEFAULT_ACL = None
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'

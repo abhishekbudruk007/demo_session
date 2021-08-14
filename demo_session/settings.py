@@ -160,7 +160,9 @@ AUTH_USER_MODEL = 'users.CustomUsers'
 #Media File Settings
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 LOGIN_URL = '/login/'
+
 LOGIN_REQUIRED_IGNORE_PATHS = [
     '/signup/',
     '/login/',
@@ -170,7 +172,8 @@ LOGIN_REQUIRED_IGNORE_PATHS = [
     '/password-reset/',
     '/password-reset-confirm/',
     '/password-reset-complete/',
-    '/admin/'
+    '/admin/',
+    '/accounts/google/login/'
 ]
 LOGIN_REQUIRED_IGNORE_VIEW_NAMES =[
     'dashboard:home',

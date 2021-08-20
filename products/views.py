@@ -245,42 +245,42 @@ class PaymentView(View):
             order.save()
 
             messages.success(self.request, "Success make an order")
-            return redirect('dashboard:home')
+            return redirect('products:payment')
 
         except stripe.error.CardError as e:
             body = e.json_body
             err = body.get('error', {})
             messages.error(self.request, f"{err.get('message')}")
-            return redirect('dashboard:home')
+            return redirect('products:payment')
 
         except stripe.error.RateLimitError as e:
             # Too many requests made to the API too quickly
             messages.error(self.request, "To many request error")
-            return redirect('dashboard:home')
+            return redirect('products:payment')
 
         except stripe.error.InvalidRequestError as e:
             # Invalid parameters were supplied to Stripe's API
             messages.error(self.request, "Invalid Parameter")
-            return redirect('dashboard:home')
+            return redirect('products:payment')
 
         except stripe.error.AuthenticationError as e:
             # Authentication with Stripe's API failed
             # (maybe you changed API keys recently)
             messages.error(self.request, "Authentication with stripe failed")
-            return redirect('dashboard:home')
+            return redirect('products:payment')
 
         except stripe.error.APIConnectionError as e:
             # Network communication with Stripe failed
             messages.error(self.request, "Network Error")
-            return redirect('dashboard:home')
+            return redirect('products:payment')
 
         except stripe.error.StripeError as e:
             # Display a very generic error to the user, and maybe send
             # yourself an email
-            messages.error(self.request, "Something went wrong")
-            return redirect('dashboard:home')
+            messages.error(self.request, "Something went wrong"+e)
+            return redirect('products:payment')
 
         except Exception as e:
             # Something else happened, completely unrelated to Stripe
             messages.error(self.request, "Not identified error")
-            return redirect('dashboard:home')
+            return redirect('products:payment')

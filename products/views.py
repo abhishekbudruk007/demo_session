@@ -7,12 +7,15 @@ from django.views.generic.edit import DeleteView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.list import  ListView
-from .models import Wishlist , Order, OrderItem, Product,CheckoutAddress
+from .models import Wishlist , Order, OrderItem, Product,CheckoutAddress ,Payment
 from django.contrib import messages
 from django.utils import timezone
 from django.views.generic import ListView, DetailView, View
 from .forms import CheckoutForm
 from django.core.exceptions import ObjectDoesNotExist
+from django.conf import settings
+import stripe
+stripe.api_key = settings.STRIPE_KEY
 # @login_required
 # def DetailView( request,pk):
 #     product_fetched = Product.objects.filter(id=pk)[0]
@@ -189,7 +192,6 @@ class CheckoutView(View):
                 order.save()
                 if payment_option == 'C':
                     order.payment = payment_option
-                    order.ordered = True
                     order.save()
                     messages.add_message(self.request,messages.SUCCESS,"Ordered Successfully")
                     return redirect('dashboard:home')
@@ -206,3 +208,78 @@ class CheckoutView(View):
             return redirect("products:order_summary")
 
 
+class PaymentView(View):
+    def get(self, *args, **kwargs):
+        order = Order.objects.get(user=self.request.user, ordered=False)
+        context = {
+            'order': order
+        }
+        return render(self.request, "products/payment.html", context)
+
+    def post(self, *args, **kwargs):
+        order = Order.objects.get(user=self.request.user, ordered=False)
+        token = self.request.POST.get('stripeToken')
+        amount = int(order.get_total_price() * 100)  # cents
+
+        try:
+            # customer = stripe.Customer.create(
+            #
+            # )
+            charge = stripe.Charge.create(
+                amount=amount,
+                currency="inr",
+                source=token
+            )
+
+            # create payment
+            payment = Payment()
+            payment.stripe_id = charge['id']
+            payment.user = self.request.user
+            payment.amount = order.get_total_price()
+            payment.save()
+
+            # assign payment to order
+            order.ordered = True
+            order.payment = payment
+            order.save()
+
+            messages.success(self.request, "Success make an order")
+            return redirect('dashboard:home')
+
+        except stripe.error.CardError as e:
+            body = e.json_body
+            err = body.get('error', {})
+            messages.error(self.request, f"{err.get('message')}")
+            return redirect('dashboard:home')
+
+        except stripe.error.RateLimitError as e:
+            # Too many requests made to the API too quickly
+            messages.error(self.request, "To many request error")
+            return redirect('dashboard:home')
+
+        except stripe.error.InvalidRequestError as e:
+            # Invalid parameters were supplied to Stripe's API
+            messages.error(self.request, "Invalid Parameter")
+            return redirect('dashboard:home')
+
+        except stripe.error.AuthenticationError as e:
+            # Authentication with Stripe's API failed
+            # (maybe you changed API keys recently)
+            messages.error(self.request, "Authentication with stripe failed")
+            return redirect('dashboard:home')
+
+        except stripe.error.APIConnectionError as e:
+            # Network communication with Stripe failed
+            messages.error(self.request, "Network Error")
+            return redirect('dashboard:home')
+
+        except stripe.error.StripeError as e:
+            # Display a very generic error to the user, and maybe send
+            # yourself an email
+            messages.error(self.request, "Something went wrong")
+            return redirect('dashboard:home')
+
+        except Exception as e:
+            # Something else happened, completely unrelated to Stripe
+            messages.error(self.request, "Not identified error")
+            return redirect('dashboard:home')

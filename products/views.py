@@ -190,12 +190,13 @@ class CheckoutView(View):
                 checkout_address.save()
                 order.checkout_address = checkout_address
                 order.save()
-                if payment_option == 'C':
-                    order.payment = payment_option
-                    order.save()
-                    messages.add_message(self.request,messages.SUCCESS,"Ordered Successfully")
-                    return redirect('dashboard:home')
-                elif payment_option == 'S':
+                # if payment_option == 'C':
+                #     order.payment = payment_option
+                #     order.save()
+                #     messages.add_message(self.request,messages.SUCCESS,"Ordered Successfully")
+                #     return redirect('dashboard:home')
+                # el
+                if payment_option == 'S':
                     return redirect('products:payment', payment_option='stripe')
                 elif payment_option == 'P':
                     return redirect('products:payment', payment_option='paypal')

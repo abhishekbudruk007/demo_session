@@ -22,5 +22,5 @@ class HomePageView(ListView):
     context_object_name = 'products'
 
 
-def dashboard(request):
+def dashboardTemplate(request):
     return redirect("dashboard:home")

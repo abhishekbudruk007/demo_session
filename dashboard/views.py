@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render ,redirect
 from products.models import Product
 # Create your views here.
 from django.views.generic.base import TemplateView
@@ -20,3 +20,7 @@ class HomePageView(ListView):
     model = Product
     template_name = 'dashboard/home.html'
     context_object_name = 'products'
+
+
+def dashboard(request):
+    return redirect("dashboard:home")

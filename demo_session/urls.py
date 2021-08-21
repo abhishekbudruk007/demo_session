@@ -17,11 +17,11 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path , include , re_path
-from dashboard import urls
+from dashboard import views
 from django.views.static import serve
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('dashboard.urls')),
+    path('', views.dashboard),
     path('', include('users.urls')),
     path('', include('products.urls')),
     path('accounts/', include('allauth.urls')),

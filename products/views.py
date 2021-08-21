@@ -151,7 +151,7 @@ class OrderSummaryView(View):
             }
             return render(self.request, 'products/order_summary.html', context)
         except ObjectDoesNotExist:
-            messages.error(self.request, "You do not have an order")
+            # messages.error(self.request, "You do not have an order")
             return render(self.request, 'products/order_summary.html')
 
 

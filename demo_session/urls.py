@@ -21,7 +21,7 @@ from dashboard import views
 from django.views.static import serve
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.dashboardTemplate),
+    path('', include('dashboard.urls')),
     path('', include('users.urls')),
     path('', include('products.urls')),
     path('accounts/', include('allauth.urls')),

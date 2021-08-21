@@ -13,6 +13,7 @@ from django.views.generic.edit import CreateView , UpdateView
 from django.views.generic.list import ListView
 from .forms import RegistrationForm
 from .models import CustomUsers
+from django.urls import reverse_lazy
 
 # Create your views here.
 def SignUp(request):
@@ -93,13 +94,13 @@ def LogOut(request):
             pass
     return render(request, template_name)
 
-from django.urls import reverse_lazy
+
 class UpdateUserCBV(UpdateView):
-    form_class = RegistrationForm()
     model = CustomUsers
     template_name = 'users/user_update_view.html'
-    success_url =   reverse_lazy('dashboard:home')
-    # fields = ['username','first_name','last_name','email','user_photo']
+    success_url = reverse_lazy('dashboard:home')
+    # form_class = RegistrationForm
+    fields = ['username','first_name','last_name','email','user_photo']
 
 
 from django.contrib.auth.views import PasswordContextMixin
